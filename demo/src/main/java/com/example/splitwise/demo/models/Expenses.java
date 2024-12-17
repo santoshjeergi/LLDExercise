@@ -10,7 +10,7 @@ import java.util.List;
 public class Expenses extends BaseModel{
 
     private String name;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     private Group group;
 

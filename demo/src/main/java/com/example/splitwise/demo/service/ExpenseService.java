@@ -6,6 +6,7 @@ import com.example.splitwise.demo.models.User;
 import com.example.splitwise.demo.models.UserExpense;
 import com.example.splitwise.demo.repo.ExpenseRepository;
 import com.example.splitwise.demo.repo.GroupRepository;
+import com.example.splitwise.demo.repo.UserExpenseRepository;
 import com.example.splitwise.demo.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,13 @@ public class ExpenseService {
     private GroupRepository groupRepository;
     private UserRepository userRepository;
     private ExpenseRepository expenseRepository;
-    //private UserExpense
+    private UserExpenseRepository userExpenseRepository;
 
-    public ExpenseService(GroupRepository groupRepository, UserRepository userRepository, ExpenseRepository expenseRepository){
+    public ExpenseService(GroupRepository groupRepository, UserRepository userRepository, ExpenseRepository expenseRepository, UserExpenseRepository userExpenseRepository){
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
         this.expenseRepository = expenseRepository;
+        this.userExpenseRepository = userExpenseRepository;
     }
 
    public Expenses createExpense(String name, Map<Integer, Double> userIdExpenseMapping,Double totalAmount,  Integer groupId) {
@@ -48,6 +50,7 @@ public class ExpenseService {
            userExpense.setUserId(user.getId());
            userExpense.setAmountOwed(userIdExpenseMapping.get(user.getId()));
            userExpense.setAmounttoRecv(0.0);
+           userExpenseRepository.save(userExpense);
            userExpenseList.add(userExpense);
        }
        expenses.setUserExpenseList(userExpenseList); //should we save this userExpense in repo- Bro.
